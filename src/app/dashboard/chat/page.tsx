@@ -48,16 +48,6 @@ export default function UniversalChatPage() {
   }, [user]);
 
   const { messages, setMessages, sendMessage, status } = useChat({
-    fetch: async (url, options) => {
-      const reqOptions = {
-        ...options,
-        headers: {
-          ...options?.headers,
-          ...(token ? { Authorization: `Bearer ${token}` } : {})
-        }
-      };
-      return fetch(url, reqOptions as RequestInit);
-    },
     onError: (err) => {
       setErrorMsg(err.message || "API Error: Please try again.");
     }
@@ -70,7 +60,7 @@ export default function UniversalChatPage() {
     e?.preventDefault();
     if (!input?.trim() || isLoading) return;
     setErrorMsg(null);
-    sendMessage({ text: input });
+    sendMessage({ text: input }, { headers: token ? { Authorization: `Bearer ${token}` } : {} });
     setInput("");
   };
 
@@ -108,7 +98,7 @@ export default function UniversalChatPage() {
       e.preventDefault();
       if (!input?.trim() || isLoading) return;
       setErrorMsg(null);
-      sendMessage({ text: input });
+      sendMessage({ text: input }, { headers: token ? { Authorization: `Bearer ${token}` } : {} });
       setInput("");
     }
   };
