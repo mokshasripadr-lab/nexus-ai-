@@ -605,7 +605,7 @@ PROJECT COMPLETENESS
   ✅ Self-checklist is 100% accurate vs actual code`;
 
     const result = await streamText({
-      model: google('gemini-2.5-flash-lite'),
+      model: google('gemini-2.5-flash'),
       system: systemPrompt,
       maxRetries: 3,
       temperature: 0.1,

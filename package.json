@@ -13,6 +13,8 @@
     "@ai-sdk/openai": "^3.0.68",
     "@ai-sdk/react": "^3.0.199",
     "@google/generative-ai": "^0.24.1",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "ai": "^6.0.197",
     "firebase": "^12.13.0",
     "firebase-admin": "^13.10.0",
