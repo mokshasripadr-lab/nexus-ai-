@@ -47,8 +47,8 @@ export default function UniversalChatPage() {
     }
   }, [user]);
 
-  const { messages, setMessages, sendMessage, status } = useChat({
-    streamProtocol: "text",
+  const { messages, setMessages, append: sendMessage, status } = useChat({
+    api: '/api/chat',
     onError: (err) => {
       setErrorMsg(err.message || "API Error: Please try again.");
     }
