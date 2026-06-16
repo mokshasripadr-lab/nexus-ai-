@@ -48,7 +48,6 @@ export default function UniversalChatPage() {
   }, [user]);
 
   const { messages, setMessages, sendMessage, status } = useChat({
-    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
     onError: (err) => {
       setErrorMsg(err.message || "API Error: Please try again.");
     }
