@@ -11,17 +11,7 @@ const google = createGoogleGenerativeAI({
 
 export async function POST(req: Request) {
   try {
-    const authHeader = req.headers.get('authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return new Response(JSON.stringify({ error: 'Unauthorized: Missing or invalid authentication token.' }), { 
-        status: 401,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
-    const token = authHeader.split('Bearer ')[1];
-    if (!token || token.length < 10) {
-      return new Response(JSON.stringify({ error: 'Unauthorized: Invalid token.' }), { status: 401 });
-    }
+    // Auth check removed to allow guest chat
 
     const { messages, modelName } = await req.json();
     console.log("RECEIVED MESSAGES:", JSON.stringify(messages, null, 2));
