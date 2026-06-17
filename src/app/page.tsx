@@ -392,9 +392,9 @@ export default function Home() {
             <span className="text-sm font-semibold text-gray-400">NEXUS AI</span>
           </div>
           <div className="flex gap-6 text-sm text-gray-500">
-            <Link href="https://x.com" target="_blank" className="hover:text-white transition-colors">Twitter</Link>
-            <Link href="https://github.com" target="_blank" className="hover:text-white transition-colors">GitHub</Link>
-            <Link href="https://discord.com" target="_blank" className="hover:text-white transition-colors">Discord</Link>
+            <a href="https://x.com/neuxsai" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Twitter</a>
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GitHub</a>
+            <a href="https://discord.gg/zYpyVQY6" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Discord</a>
           </div>
         </div>
       </footer>

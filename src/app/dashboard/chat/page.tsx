@@ -107,10 +107,10 @@ export default function UniversalChatPage() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isLoading]);
 
-  if (!isMounted) return <div className="flex flex-col h-[calc(100vh-56px)] items-center justify-center text-white/50"><Loader2 className="w-8 h-8 animate-spin" /></div>;
+  if (!isMounted) return <div className="flex flex-col h-[calc(100dvh-56px)] items-center justify-center text-white/50"><Loader2 className="w-8 h-8 animate-spin" /></div>;
 
   return (
-    <div className="flex flex-col h-[calc(100vh-56px)]">
+    <div className="flex flex-col h-[calc(100dvh-56px)]">
       {/* Header */}
       <div className="h-16 border-b border-white/5 shrink-0 flex items-center justify-between px-6 bg-[#000000] sticky top-0 z-10">
         <div className="flex flex-col">
