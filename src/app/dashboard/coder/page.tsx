@@ -155,7 +155,7 @@ export default function AICoderPage() {
             messages.map((rawM) => {
               const m = rawM as any;
               // Hide the context prompt block from UI to keep it clean
-              let content = m.content;
+              let content = m.content || "";
               if (m.role === 'user' && content.includes('=== CURRENT CODE CONTEXT ===')) {
                 content = content.split('\n\n=== CURRENT CODE CONTEXT ===')[0];
               }
