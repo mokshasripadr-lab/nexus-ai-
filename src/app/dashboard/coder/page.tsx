@@ -3,6 +3,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport } from "ai";
 import dynamic from 'next/dynamic';
 
 const Editor = dynamic(() => import("@monaco-editor/react"), { ssr: false });
@@ -25,7 +26,7 @@ export default function AICoderPage() {
   const [input, setInput] = useState("");
   const { messages, sendMessage, status } = useChat({
     // @ts-ignore
-    api: "/api/coder",
+    transport: new DefaultChatTransport({ api: "/api/coder" }),
   });
   const isLoading = status === 'submitted' || status === 'streaming';
   
