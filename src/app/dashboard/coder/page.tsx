@@ -3,6 +3,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport } from "ai";
 import Editor from "@monaco-editor/react";
 import { Send, Terminal, Code2, Loader2, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
@@ -20,11 +21,15 @@ export default function AICoderPage() {
     { text: 'event - compiled client and server successfully in 1250 ms (147 modules)', color: 'text-blue-400' }
   ]);
   
-  // @ts-ignore
-  const { messages, input, handleInputChange, handleSubmit, isLoading, append, setInput } = useChat({
-    // @ts-ignore
-    api: "/api/coder",
+  const [input, setInput] = useState("");
+  const { messages, sendMessage, status } = useChat({
+    transport: new DefaultChatTransport({ api: "/api/coder" }),
   });
+  const isLoading = status === 'submitted' || status === 'streaming';
+  
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInput(e.target.value);
+  };
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -51,7 +56,7 @@ export default function AICoderPage() {
     ]);
   };
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!input?.trim()) return;
     
@@ -59,14 +64,14 @@ export default function AICoderPage() {
     // by using a structured prompt format.
     const contextPrompt = `${input}\n\n=== CURRENT CODE CONTEXT ===\n\`\`\`${language}\n${code}\n\`\`\`\n=== END CONTEXT ===`;
     
-    append({
-      id: Date.now().toString(),
-      role: 'user',
-      content: contextPrompt,
-    });
-    
-    // Clear the input
-    setInput('');
+    try {
+      sendMessage({ text: contextPrompt });
+      // Clear the input
+      setInput('');
+    } catch (error) {
+      console.error("Append error:", error);
+      alert("Failed to submit message: " + String(error));
+    }
   };
 
   return (
