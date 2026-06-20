@@ -31,9 +31,9 @@ Your core directives:
 
     let result;
     try {
-      console.log("Attempting to use OpenRouter (qwen/qwen-2.5-coder-32b-instruct:free) for extreme speed...");
+      console.log("Attempting to use OpenRouter (qwen/qwen3-coder:free) for extreme speed...");
       result = await streamText({
-        model: openrouter('qwen/qwen-2.5-coder-32b-instruct:free'),
+        model: openrouter('qwen/qwen3-coder:free'),
         system: systemPrompt,
         maxRetries: 1,
         temperature: 0.1,
@@ -47,7 +47,7 @@ Your core directives:
     } catch (openRouterError) {
       console.error("OpenRouter failed, instantly falling back to Native Gemini API...", openRouterError);
       result = await streamText({
-        model: google('gemini-2.5-flash'),
+        model: google('gemini-1.5-flash'),
         system: systemPrompt,
         maxRetries: 3,
         temperature: 0.1,
@@ -58,7 +58,7 @@ Your core directives:
       });
     }
 
-    return result.toDataStreamResponse();
+    return result.toUIMessageStreamResponse();
   } catch (error: any) {
     console.error("Critical Chat API Error:", error);
     return new Response(JSON.stringify({ error: error.message || "Failed to connect to the Gemini API. Please check your API Key." }), { 
