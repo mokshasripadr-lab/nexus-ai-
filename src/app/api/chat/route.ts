@@ -1,14 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
-import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { createOpenAI } from '@ai-sdk/openai';
-import { streamText, generateText } from 'ai';
+import { streamText } from 'ai';
 
 export const runtime = 'nodejs';
 export const maxDuration = 300;
-
-const google = createGoogleGenerativeAI({
-  apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
-});
 
 const openrouter = createOpenAI({
   baseURL: 'https://openrouter.ai/api/v1',
@@ -17,7 +12,6 @@ const openrouter = createOpenAI({
 
 export async function POST(req: Request) {
   try {
-
     const { messages, modelName } = await req.json();
     console.log("RECEIVED MESSAGES:", JSON.stringify(messages, null, 2));
 
@@ -29,39 +23,20 @@ Your core directives:
 4. Format: Use clean, readable Markdown without enforcing rigid, unnecessary structures. Adjust your tone and depth to exactly match what the user is asking.
 5. No History Repetition: DO NOT repeat, summarize, or restate previous messages or answers from the conversation history unless explicitly asked. Only respond to the user's latest prompt.`;
 
-    let result;
-    try {
-      console.log("Attempting to use OpenRouter (qwen/qwen3-coder:free) for extreme speed...");
-      result = await streamText({
-        model: openrouter('qwen/qwen3-coder:free'),
-        system: systemPrompt,
-        maxRetries: 1,
-        temperature: 0.1,
-        messages: messages.map((m: any) => ({
-          role: m.role,
-          content: m.content || m.text || (m.parts && m.parts[0]?.text) || ""
-        })),
-      });
-      // Vercel AI SDK streams: We must await the *start* of the stream to catch immediate API errors
-      // But we can just return it. If it fails mid-stream, it gets handled by the client.
-    } catch (openRouterError) {
-      console.error("OpenRouter failed, instantly falling back to Native Gemini API...", openRouterError);
-      result = await streamText({
-        model: google('gemini-1.5-flash'),
-        system: systemPrompt,
-        maxRetries: 3,
-        temperature: 0.1,
-        messages: messages.map((m: any) => ({
-          role: m.role,
-          content: m.content || m.text || (m.parts && m.parts[0]?.text) || ""
-        })),
-      });
-    }
+    const result = await streamText({
+      model: openrouter('google/gemma-4-31b-it:free'),
+      system: systemPrompt,
+      temperature: 0.1,
+      messages: messages.map((m: any) => ({
+        role: m.role,
+        content: m.content || m.text || (m.parts && m.parts[0]?.text) || ""
+      })),
+    });
 
     return result.toUIMessageStreamResponse();
   } catch (error: any) {
     console.error("Critical Chat API Error:", error);
-    return new Response(JSON.stringify({ error: error.message || "Failed to connect to the Gemini API. Please check your API Key." }), { 
+    return new Response(JSON.stringify({ error: error.message || "Failed to connect to the OpenRouter API. Please check your API Key." }), { 
       status: 500, 
       headers: { 'Content-Type': 'application/json' } 
     });

@@ -11,6 +11,14 @@ import ReactMarkdown from 'react-markdown';
 export default function AICoderPage() {
   const [code, setCode] = useState<string>("export default function HelloWorld() {\n  return (\n    <div>\n      <h1>Hello World</h1>\n    </div>\n  );\n}");
   const [language, setLanguage] = useState("javascript");
+  const [isSaved, setIsSaved] = useState(false);
+  const [terminalLogs, setTerminalLogs] = useState([
+    { text: '$ npm run dev', color: 'text-green-400' },
+    { text: '> nexus-ai@0.1.0 dev', color: 'text-gray-400' },
+    { text: '> next dev', color: 'text-gray-400' },
+    { text: 'ready - started server on 0.0.0.0:3000, url: http://localhost:3000', color: 'text-green-400' },
+    { text: 'event - compiled client and server successfully in 1250 ms (147 modules)', color: 'text-blue-400' }
+  ]);
   
   // @ts-ignore
   const { messages, input, handleInputChange, handleSubmit, isLoading, append } = useChat({
@@ -27,6 +35,20 @@ export default function AICoderPage() {
     if (value !== undefined) {
       setCode(value);
     }
+  };
+
+  const handleSave = () => {
+    setIsSaved(true);
+    setTimeout(() => setIsSaved(false), 2000);
+  };
+
+  const handleRunCode = () => {
+    setTerminalLogs(prev => [
+      ...prev,
+      { text: '$ node main.js', color: 'text-green-400' },
+      { text: '> Running code execution...', color: 'text-gray-400' },
+      { text: 'Executed successfully with 0 errors.', color: 'text-blue-400' }
+    ]);
   };
 
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -56,8 +78,10 @@ export default function AICoderPage() {
             <span className="font-mono">main.js</span>
           </div>
           <div className="flex gap-2">
-            <button className="px-2 py-1 rounded bg-white/5 hover:bg-white/10 transition-colors">Run Code</button>
-            <button className="px-2 py-1 rounded bg-white/5 hover:bg-white/10 transition-colors">Save</button>
+            <button onClick={handleRunCode} className="px-2 py-1 rounded bg-white/5 hover:bg-white/10 transition-colors">Run Code</button>
+            <button onClick={handleSave} className="px-2 py-1 rounded bg-white/5 hover:bg-white/10 transition-colors">
+              {isSaved ? "Saved!" : "Save"}
+            </button>
           </div>
         </div>
         
@@ -93,12 +117,10 @@ export default function AICoderPage() {
             <div className="hover:text-gray-300 cursor-pointer">Problems (0)</div>
             <div className="hover:text-gray-300 cursor-pointer">Output</div>
           </div>
-          <div className="flex-1 p-3 font-mono text-xs text-green-400 overflow-y-auto">
-            <div>$ npm run dev</div>
-            <div className="text-gray-400 mt-1">&gt; nexus-ai@0.1.0 dev</div>
-            <div className="text-gray-400">&gt; next dev</div>
-            <div className="text-green-400 mt-2">ready - started server on 0.0.0.0:3000, url: http://localhost:3000</div>
-            <div className="text-blue-400 mt-1">event - compiled client and server successfully in 1250 ms (147 modules)</div>
+          <div className="flex-1 p-3 font-mono text-xs overflow-y-auto flex flex-col gap-1">
+            {terminalLogs.map((log, index) => (
+              <div key={index} className={log.color}>{log.text}</div>
+            ))}
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createGoogleGenerativeAI } from '@ai-sdk/google';
+import { createOpenAI } from '@ai-sdk/openai';
 import { streamText } from 'ai';
 
 import { systemPrompt } from './system-prompt';
@@ -7,8 +7,9 @@ import { systemPrompt } from './system-prompt';
 export const runtime = 'edge';
 export const maxDuration = 30;
 
-const google = createGoogleGenerativeAI({
-  apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
+const openrouter = createOpenAI({
+  baseURL: 'https://openrouter.ai/api/v1',
+  apiKey: process.env.OPENROUTER_API_KEY || "dummy_key",
 });
 
 export async function POST(req: Request) {
@@ -16,7 +17,7 @@ export async function POST(req: Request) {
     const { messages } = await req.json();
 
     const result = await streamText({
-      model: google('gemini-1.5-flash'),
+      model: openrouter('cohere/north-mini-code:free'),
       maxRetries: 0,
       system: systemPrompt,
       messages,
