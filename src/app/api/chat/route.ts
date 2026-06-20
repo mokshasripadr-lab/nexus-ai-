@@ -31,9 +31,9 @@ Your core directives:
 
     let result;
     try {
-      console.log("Attempting to use OpenRouter (meta-llama/llama-3.3-70b-instruct:free)...");
+      console.log("Attempting to use OpenRouter (qwen/qwen-2.5-coder-32b-instruct:free) for extreme speed...");
       result = await streamText({
-        model: openrouter('meta-llama/llama-3.3-70b-instruct:free'),
+        model: openrouter('qwen/qwen-2.5-coder-32b-instruct:free'),
         system: systemPrompt,
         maxRetries: 1,
         temperature: 0.1,
@@ -42,8 +42,10 @@ Your core directives:
           content: m.content || m.text || (m.parts && m.parts[0]?.text) || ""
         })),
       });
+      // Vercel AI SDK streams: We must await the *start* of the stream to catch immediate API errors
+      // But we can just return it. If it fails mid-stream, it gets handled by the client.
     } catch (openRouterError) {
-      console.log("OpenRouter failed, falling back to Native Gemini API...", openRouterError);
+      console.error("OpenRouter failed, instantly falling back to Native Gemini API...", openRouterError);
       result = await streamText({
         model: google('gemini-2.5-flash'),
         system: systemPrompt,
