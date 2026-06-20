@@ -1,14 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
-import { createOpenAI } from '@ai-sdk/openai';
+import { google } from '@ai-sdk/google';
 import { streamText } from 'ai';
 
 export const runtime = 'nodejs';
 export const maxDuration = 300;
-
-const openrouter = createOpenAI({
-  baseURL: 'https://openrouter.ai/api/v1',
-  apiKey: process.env.OPENROUTER_API_KEY || "dummy_key",
-});
 
 export async function POST(req: Request) {
   try {
@@ -24,7 +19,7 @@ Your core directives:
 5. No History Repetition: DO NOT repeat, summarize, or restate previous messages or answers from the conversation history unless explicitly asked. Only respond to the user's latest prompt.`;
 
     const result = await streamText({
-      model: openrouter('google/gemma-4-31b-it:free'),
+      model: google('gemini-1.5-flash'),
       system: systemPrompt,
       temperature: 0.1,
       messages: messages.map((m: any) => ({
@@ -36,7 +31,7 @@ Your core directives:
     return result.toDataStreamResponse();
   } catch (error: any) {
     console.error("Critical Chat API Error:", error);
-    return new Response(JSON.stringify({ error: error.message || "Failed to connect to the OpenRouter API. Please check your API Key." }), { 
+    return new Response(JSON.stringify({ error: error.message || "Failed to connect to the Gemini API. Please check your API Key." }), { 
       status: 500, 
       headers: { 'Content-Type': 'application/json' } 
     });
