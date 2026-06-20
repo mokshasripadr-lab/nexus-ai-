@@ -11,14 +11,14 @@ export async function POST(req: Request) {
   try {
     const { messages } = await req.json();
 
-    const result = await streamText({
-      model: google('gemini-2.5-pro') as any,
+    const result = streamText({
+      model: google('gemini-flash-latest') as any,
       maxRetries: 0,
       system: systemPrompt,
       messages,
     });
 
-    return result.toDataStreamResponse();
+    return result.toUIMessageStreamResponse();
   } catch (error: any) {
     console.error("Coder API Error:", error);
     return new Response(JSON.stringify({ error: "Failed to generate code using Gemini" }), { status: 500 });

@@ -18,8 +18,8 @@ Your core directives:
 4. Format: Use clean, readable Markdown without enforcing rigid, unnecessary structures. Adjust your tone and depth to exactly match what the user is asking.
 5. No History Repetition: DO NOT repeat, summarize, or restate previous messages or answers from the conversation history unless explicitly asked. Only respond to the user's latest prompt.`;
 
-    const result = await streamText({
-      model: google('gemini-2.5-flash') as any,
+    const result = streamText({
+      model: google('gemini-flash-latest') as any,
       system: systemPrompt,
       temperature: 0.1,
       messages: messages.map((m: any) => ({
@@ -28,7 +28,7 @@ Your core directives:
       })),
     });
 
-    return result.toDataStreamResponse();
+    return result.toUIMessageStreamResponse();
   } catch (error: any) {
     console.error("Critical Chat API Error:", error);
     return new Response(JSON.stringify({ error: error.message || "Failed to connect to the Gemini API. Please check your API Key." }), { 
