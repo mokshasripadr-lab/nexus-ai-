@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     const { messages } = await req.json();
 
     const result = await streamText({
-      model: openrouter('meta-llama/llama-3-8b-instruct:free'),
+      model: openrouter('cohere/north-mini-code:free'),
       maxRetries: 0,
       system: systemPrompt,
       messages,

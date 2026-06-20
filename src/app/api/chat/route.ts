@@ -24,7 +24,7 @@ Your core directives:
 5. No History Repetition: DO NOT repeat, summarize, or restate previous messages or answers from the conversation history unless explicitly asked. Only respond to the user's latest prompt.`;
 
     const result = await streamText({
-      model: openrouter('meta-llama/llama-3-8b-instruct:free'),
+      model: openrouter('google/gemma-4-31b-it:free'),
       system: systemPrompt,
       temperature: 0.1,
       messages: messages.map((m: any) => ({
