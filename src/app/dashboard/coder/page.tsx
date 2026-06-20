@@ -21,9 +21,9 @@ export default function AICoderPage() {
   ]);
   
   // @ts-ignore
-  const { messages, input, handleInputChange, handleSubmit, isLoading, append } = useChat({
+  const { messages, input, handleInputChange, handleSubmit, isLoading, append, setInput } = useChat({
     // @ts-ignore
-    api: "/api/chat",
+    api: "/api/coder",
   });
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -60,12 +60,13 @@ export default function AICoderPage() {
     const contextPrompt = `${input}\n\n=== CURRENT CODE CONTEXT ===\n\`\`\`${language}\n${code}\n\`\`\`\n=== END CONTEXT ===`;
     
     append({
+      id: Date.now().toString(),
       role: 'user',
       content: contextPrompt,
     });
     
     // Clear the input
-    handleInputChange({ target: { value: '' } } as any);
+    setInput('');
   };
 
   return (
