@@ -7,10 +7,12 @@ import { ArrowLeft } from 'lucide-react';
 const documentationMarkdown = `
 # Nexus AI Chatbot - Full Project Documentation
 
+**v2.0 — June 2025: Migrated to Gemini 2.5 Flash + Pro. Removed OpenRouter dependency.**
+
 This document outlines the entire journey of building the Nexus AI Chatbot from scratch to its current production-ready state.
 
 ## 1. Project Inception & UI Design
-We started by creating a Next.js 14 application using the App Router. The goal was to build a highly responsive, modern, dark-themed AI chat interface inspired by Google Gemini.
+We started by creating a Next.js 15 application using the App Router. The goal was to build a highly responsive, modern, dark-themed AI chat interface inspired by Google Gemini.
 
 ### Key UI Features Implemented:
 - **Glassmorphism & Dark Mode**: Used TailwindCSS to build a sleek, dark aesthetic with frosted glass sidebars (\`bg-white/5\`, \`backdrop-blur-xl\`).
@@ -50,7 +52,7 @@ While other platforms offer fragmented tools or lock you into rigid, high-cost e
 ### The Nexus Advantage:
 - **Native Gemini Integration**: Unlike third-party proxy wrappers that suffer from rate-limits and latency, Nexus AI connects directly to Google's Native SDK. This ensures maximum throughput, zero queueing, and enterprise-grade reliability using **Gemini 2.5 Flash** and **Gemini 2.5 Pro**.
 - **Uncompromised Privacy**: Your data and prompts flow directly between your environment and the foundation model. No middleman telemetry, no shadow logging.
-- **Architectural Elegance**: We’ve stripped away bloated dependencies. The platform is engineered on a highly optimized Next.js 14 App Router foundation, ensuring lightning-fast load times and seamless real-time interactions.
+- **Architectural Elegance**: We’ve stripped away bloated dependencies. The platform is engineered on a highly optimized Next.js 15 App Router foundation, ensuring lightning-fast load times and seamless real-time interactions.
 - **Cost-Efficiency at Scale**: By leveraging direct API connections and intelligent caching through Firebase, Nexus AI eliminates the middleman markups typical of "AI-as-a-Service" platforms, allowing you to scale your ideas without artificial constraints.
 
 When you choose Nexus AI, you aren't just adopting a tool—you are gaining a dedicated, high-performance workspace designed to accelerate your engineering velocity.

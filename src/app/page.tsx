@@ -6,7 +6,8 @@ import { motion } from "framer-motion";
 import { Zap, Database, Terminal, Code, Workflow, FileText, Check, X, Shield, Sparkles, Layers, MessageSquare } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { collection, query, where, onSnapshot, getDocs, orderBy, limit } from "firebase/firestore";
+import { useRouter } from "next/navigation";
+import { collection, query, where, onSnapshot, getDocs, orderBy, limit, addDoc } from "firebase/firestore";
 import { signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 import { auth, db } from "@/lib/firebase";
 import { useAuth } from "@/components/AuthProvider";
@@ -23,16 +24,20 @@ interface Review {
 
 export default function Home() {
   const { user } = useAuth();
+  const router = useRouter();
   const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [reviews, setReviews] = useState<Review[]>([]);
 
+  const [newReviewText, setNewReviewText] = useState("");
+  const [newReviewStars, setNewReviewStars] = useState(5);
+  const [isSubmittingReview, setIsSubmittingReview] = useState(false);
+
   useEffect(() => {
-    const q = query(collection(db, "feedback"), where("type", "==", "review"));
+    const q = query(collection(db, "reviews"), orderBy("createdAt", "desc"), limit(6));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const allReviews = snapshot.docs.map(doc => doc.data() as Review);
-      allReviews.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-      setReviews(allReviews.slice(0, 6));
+      setReviews(allReviews);
     }, (error) => {
       console.error("Error fetching reviews:", error);
     });
@@ -40,17 +45,47 @@ export default function Home() {
     return () => unsubscribe();
   }, []);
 
+  const handleReviewSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user || !newReviewText.trim()) return;
+    setIsSubmittingReview(true);
+    try {
+      await addDoc(collection(db, "reviews"), {
+        type: "review",
+        content: newReviewText,
+        userId: user.uid,
+        userName: user.displayName || "Anonymous",
+        userPhoto: user.photoURL || "",
+        createdAt: new Date().toISOString(),
+        stars: newReviewStars
+      });
+      setNewReviewText("");
+      setNewReviewStars(5);
+    } catch (error) {
+      console.error("Error submitting review:", error);
+      alert("Failed to submit review. Please try again.");
+    } finally {
+      setIsSubmittingReview(false);
+    }
+  };
+
   const handleLogin = async () => {
     setIsLoggingIn(true);
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
+      router.push("/dashboard");
     } catch (error: any) {
       console.error(error);
       alert(`Login failed: ${error.message}\n\nMake sure Google Sign-In is enabled in your Firebase Console!`);
     } finally {
       setIsLoggingIn(false);
     }
+  };
+
+  const handleSignOut = async () => {
+    await signOut(auth);
+    router.push("/");
   };
   return (
     <main className="min-h-screen bg-black flex flex-col relative overflow-hidden font-sans text-gray-200">
@@ -84,9 +119,15 @@ export default function Home() {
               <button onClick={() => setIsFeedbackOpen(true)} className="text-[13px] font-medium text-gray-400 hover:text-white transition-colors hidden sm:block">
                 Leave Feedback
               </button>
-              <button onClick={() => signOut(auth)} className="text-[13px] font-medium text-gray-400 hover:text-white transition-colors hidden sm:block">
+              <button onClick={handleSignOut} className="text-[13px] font-medium text-gray-400 hover:text-white transition-colors hidden sm:block">
                 Sign Out
               </button>
+              <div className="flex items-center gap-2 mr-2">
+                <div className="w-8 h-8 rounded-full overflow-hidden bg-white/10 flex items-center justify-center">
+                  {user.photoURL ? <Image src={user.photoURL} alt={user.displayName || "User"} width={32} height={32} /> : (user.displayName?.charAt(0) || "U")}
+                </div>
+                <span className="text-sm font-medium hidden md:block">{user.displayName?.split(" ")[0]}</span>
+              </div>
               <Link href="/dashboard" className="px-3 py-1.5 rounded-md bg-white text-black text-[13px] font-medium hover:bg-gray-200 transition-colors flex items-center gap-1 shadow-sm">
                 Dashboard
               </Link>
@@ -124,14 +165,10 @@ export default function Home() {
             </span>
           </h1>
           
-          <div className="mb-6 px-6 py-2 rounded-full border border-violet-500/30 bg-violet-500/10 inline-flex items-center gap-2 shadow-[0_0_15px_rgba(139,92,246,0.3)]">
-            <span className="text-violet-200 font-semibold text-lg tracking-wide">
-              Founder of Nexus AI: <span className="text-white font-bold">Moksha Sripad .R</span>
-            </span>
-          </div>
+          <p className="text-sm text-white/40 mt-2 tracking-widest uppercase mb-6">Founded by Moksha Sripad R.</p>
           
           <p className="text-lg text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed font-light">
-            Nexus AI is the unified platform for engineering teams to build, ship, and scale intelligent applications. Access state-of-the-art models within a native development environment.
+            Nexus AI is the unified platform for engineering teams to build, ship, and scale intelligent applications using Gemini 2.5 Flash and Pro.
           </p>
 
           <div className="flex items-center gap-4">
@@ -354,7 +391,11 @@ export default function Home() {
                 </div>
                 <div>
                   <div className="text-sm font-semibold text-white">{review.userName}</div>
-                  <div className="text-xs text-gray-500">Verified User</div>
+                  <div className="flex gap-1 mt-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Sparkles key={i} className={`w-3 h-3 ${i < (review as any).stars ? 'text-yellow-400' : 'text-gray-600'}`} />
+                    ))}
+                  </div>
                 </div>
               </div>
               <p className="text-gray-300 text-sm leading-relaxed">&quot;{review.content}&quot;</p>
@@ -365,6 +406,43 @@ export default function Home() {
             </div>
           )}
         </div>
+
+        {user ? (
+          <div className="mt-16 max-w-2xl mx-auto bg-[#111] border border-white/10 rounded-2xl p-8">
+            <h3 className="text-xl font-semibold text-white mb-6">Leave a Review</h3>
+            <form onSubmit={handleReviewSubmit} className="flex flex-col gap-4">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-sm text-gray-400 mr-2">Rating:</span>
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <button type="button" key={star} onClick={() => setNewReviewStars(star)} className="focus:outline-none">
+                    <Sparkles className={`w-5 h-5 ${star <= newReviewStars ? 'text-yellow-400' : 'text-gray-600 hover:text-yellow-400/50'} transition-colors`} />
+                  </button>
+                ))}
+              </div>
+              <textarea
+                value={newReviewText}
+                onChange={(e) => setNewReviewText(e.target.value)}
+                placeholder="What do you think of Nexus AI?"
+                className="w-full bg-[#0a0a0a] border border-white/10 rounded-xl p-4 text-sm text-gray-200 placeholder-gray-600 focus:outline-none focus:border-violet-500/50 resize-none h-32"
+                required
+              />
+              <button 
+                type="submit" 
+                disabled={isSubmittingReview || !newReviewText.trim()}
+                className="bg-white text-black font-semibold px-6 py-3 rounded-xl hover:bg-gray-200 transition-colors disabled:opacity-50 self-end flex items-center gap-2"
+              >
+                {isSubmittingReview ? "Submitting..." : "Submit Review"}
+              </button>
+            </form>
+          </div>
+        ) : (
+          <div className="mt-16 text-center">
+            <p className="text-gray-400 mb-4">Want to leave a review?</p>
+            <button onClick={handleLogin} className="px-6 py-3 rounded-lg border border-white/10 text-white text-sm font-medium hover:bg-white/5 transition-colors">
+              Sign In to Review
+            </button>
+          </div>
+        )}
       </section>
 
       {/* CTA Section */}
@@ -392,8 +470,8 @@ export default function Home() {
             <span className="text-sm font-semibold text-gray-400">NEXUS AI</span>
           </div>
           <div className="flex gap-6 text-sm text-gray-500">
-            <a href="https://x.com/neuxsai" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Twitter</a>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GitHub</a>
+            <a href="https://x.com/nexusai" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Twitter</a>
+            <a href="https://github.com/nexus-ai" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GitHub</a>
             <a href="https://discord.gg/zYpyVQY6" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">Discord</a>
           </div>
         </div>
