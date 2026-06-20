@@ -47,18 +47,20 @@ export default function UniversalChatPage() {
     }
   }, [user]);
 
-  const { messages, setMessages, append, isLoading } = useChat({
+  const { messages, setMessages, sendMessage, status } = useChat({
     onError: (err) => {
       setErrorMsg(err.message || "API Error: Please try again.");
     }
   });
+
+  const isLoading = status === 'submitted' || status === 'streaming';
 
 
   const onSubmit = (e?: React.FormEvent<HTMLFormElement>) => {
     e?.preventDefault();
     if (!input?.trim() || isLoading) return;
     setErrorMsg(null);
-    append({ content: input, role: 'user' });
+    sendMessage({ text: input });
     setInput("");
   };
 
@@ -96,7 +98,7 @@ export default function UniversalChatPage() {
       e.preventDefault();
       if (!input?.trim() || isLoading) return;
       setErrorMsg(null);
-      append({ content: input, role: 'user' });
+      sendMessage({ text: input });
       setInput("");
     }
   };
