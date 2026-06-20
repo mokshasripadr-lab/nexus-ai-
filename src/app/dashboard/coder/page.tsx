@@ -3,7 +3,6 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport } from "ai";
 import Editor from "@monaco-editor/react";
 import { Send, Terminal, Code2, Loader2, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
@@ -23,7 +22,8 @@ export default function AICoderPage() {
   
   const [input, setInput] = useState("");
   const { messages, sendMessage, status } = useChat({
-    transport: new DefaultChatTransport({ api: "/api/coder" }),
+    // @ts-ignore
+    api: "/api/coder",
   });
   const isLoading = status === 'submitted' || status === 'streaming';
   
