@@ -3,7 +3,9 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useChat } from "@ai-sdk/react";
-import Editor from "@monaco-editor/react";
+import dynamic from 'next/dynamic';
+
+const Editor = dynamic(() => import("@monaco-editor/react"), { ssr: false });
 import { Send, Terminal, Code2, Loader2, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import ReactMarkdown from 'react-markdown';
