@@ -24,7 +24,7 @@ Your core directives:
 5. No History Repetition: DO NOT repeat, summarize, or restate previous messages or answers from the conversation history unless explicitly asked. Only respond to the user's latest prompt.`;
 
     const result = await streamText({
-      model: openrouter('google/gemma-4-31b-it:free'),
+      model: openrouter('google/gemma-7b-it:free'),
       system: systemPrompt,
       temperature: 0.1,
       messages: messages.map((m: any) => ({
@@ -33,7 +33,7 @@ Your core directives:
       })),
     });
 
-    return result.toUIMessageStreamResponse();
+    return result.toDataStreamResponse();
   } catch (error: any) {
     console.error("Critical Chat API Error:", error);
     return new Response(JSON.stringify({ error: error.message || "Failed to connect to the OpenRouter API. Please check your API Key." }), { 

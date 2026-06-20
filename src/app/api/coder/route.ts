@@ -17,13 +17,13 @@ export async function POST(req: Request) {
     const { messages } = await req.json();
 
     const result = await streamText({
-      model: openrouter('cohere/north-mini-code:free'),
+      model: openrouter('meta-llama/llama-3-8b-instruct:free'),
       maxRetries: 0,
       system: systemPrompt,
       messages,
     });
 
-    return result.toUIMessageStreamResponse();
+    return result.toDataStreamResponse();
   } catch (error: any) {
     console.error("Coder API Error:", error);
     return new Response(JSON.stringify({ error: "Failed to generate code" }), { status: 500 });

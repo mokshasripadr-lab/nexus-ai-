@@ -23,11 +23,11 @@ export default function AICoderPage() {
   ]);
   
   const [input, setInput] = useState("");
-  const { messages, sendMessage, status } = useChat({
-    // @ts-ignore
-    api: "/api/coder",
+  const { messages, append, isLoading } = useChat({
+    fetch: async (url, options) => {
+      return fetch("/api/coder", options);
+    }
   });
-  const isLoading = status === 'submitted' || status === 'streaming';
   
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(e.target.value);
@@ -67,7 +67,7 @@ export default function AICoderPage() {
     const contextPrompt = `${input}\n\n=== CURRENT CODE CONTEXT ===\n\`\`\`${language}\n${code}\n\`\`\`\n=== END CONTEXT ===`;
     
     try {
-      sendMessage({ text: contextPrompt });
+      append({ content: contextPrompt, role: 'user' });
       // Clear the input
       setInput('');
     } catch (error) {

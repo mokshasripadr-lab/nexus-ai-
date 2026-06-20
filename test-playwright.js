@@ -7,6 +7,19 @@ const { chromium } = require('playwright-core');
     console.log('PAGE ERROR MESSAGE:', err.message);
     console.log('PAGE ERROR STACK:', err.stack);
   });
+  
+  // Intercept all requests
+  page.on('request', request => {
+    if (request.method() === 'POST') {
+      console.log('>> POST REQUEST TO:', request.url());
+    }
+  });
+  page.on('response', response => {
+    if (response.request().method() === 'POST') {
+      console.log('<< POST RESPONSE:', response.status(), response.url());
+    }
+  });
+
   await page.goto('https://nexus-ai-8ggo-ten.vercel.app/dashboard/coder', { waitUntil: 'networkidle' });
   
   try {
