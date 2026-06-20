@@ -58,7 +58,7 @@ Your core directives:
       });
     }
 
-    return result.toUIMessageStreamResponse();
+    return result.toDataStreamResponse();
   } catch (error: any) {
     console.error("Critical Chat API Error:", error);
     return new Response(JSON.stringify({ error: error.message || "Failed to connect to the Gemini API. Please check your API Key." }), { 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { streamText } from 'ai';
 
@@ -21,8 +22,8 @@ export async function POST(req: Request) {
       messages,
     });
 
-    return result.toUIMessageStreamResponse();
-  } catch (error) {
+    return result.toDataStreamResponse();
+  } catch (error: any) {
     console.error("Coder API Error:", error);
     return new Response(JSON.stringify({ error: "Failed to generate code" }), { status: 500 });
   }
