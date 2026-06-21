@@ -210,7 +210,7 @@ export default function Home() {
               <div className="w-56 border-r border-white/5 p-4 flex flex-col gap-6 hidden md:flex">
                 <div className="space-y-1">
                   <div className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2 px-2">Engines</div>
-                  <div className="flex items-center gap-2 px-2 py-1.5 bg-white/10 rounded-md text-sm text-gray-200"><Terminal className="w-4 h-4" /> AI Coder</div>
+                  <div className="flex items-center gap-2 px-2 py-1.5 bg-white/10 rounded-md text-sm text-gray-200"><MessageSquare className="w-4 h-4" /> Universal Chat</div>
                   <div className="flex items-center gap-2 px-2 py-1.5 text-sm text-gray-500"><Code className="w-4 h-4" /> Code Review</div>
                   <div className="flex items-center gap-2 px-2 py-1.5 text-sm text-gray-500"><Database className="w-4 h-4" /> Database</div>
                 </div>

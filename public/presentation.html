@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus AI: The Future of Autonomous Development</title>
+    <!-- Beautiful modern styling framework -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #0d0e12;
+            color: #f3f4f6;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            overflow: hidden;
+        }
+        .slide {
+            display: none;
+            height: 100vh;
+            width: 100vw;
+            padding: 3rem;
+            box-sizing: border-box;
+            background: radial-gradient(circle at 80% 20%, rgba(147, 51, 234, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 20% 80%, rgba(6, 182, 212, 0.15) 0%, transparent 50%);
+        }
+        .slide.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .neon-glow-purple {
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+            border: 1px solid rgba(168, 85, 247, 0.6);
+        }
+        .neon-glow-cyan {
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+            border: 1px solid rgba(6, 182, 212, 0.6);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SLIDE 1: TITLE SLIDE -->
+    <div class="slide active" id="slide1">
+        <div class="text-center">
+            <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-tr from-cyan-400 to-purple-600 flex items-center justify-center text-3xl font-bold tracking-wider text-white uppercase neon-glow-purple">NX</div>
+            <h1 class="text-6xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 mb-4">Nexus AI</h1>
+            <p class="text-2xl text-gray-400 mb-8 font-light">The Future of Autonomous Development</p>
+            <div class="h-0.5 w-48 bg-gradient-to-r from-cyan-500 to-purple-500 mx-auto mb-8"></div>
+            <p class="text-lg text-gray-500">Presented by: <span class="text-gray-300 font-medium">Moksha Sripad, Founder</span></p>
+        </div>
+        <div class="absolute bottom-8 text-xs text-gray-600 uppercase tracking-widest">Press Right Arrow To Advance</div>
+    </div>
+
+    <!-- SLIDE 2: THE PROBLEM -->
+    <div class="slide" id="slide2">
+        <div class="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-4xl font-bold text-purple-400 mb-6">The Modern Development Friction</h2>
+                <ul class="space-y-4 text-lg text-gray-300">
+                    <li class="flex items-start"><span class="text-red-500 mr-2">✕</span> AI tools generate fragmented snippets, not full products.</li>
+                    <li class="flex items-start"><span class="text-red-500 mr-2">✕</span> Critical code context is constantly lost between browser chat windows and IDEs.</li>
+                    <li class="flex items-start"><span class="text-red-500 mr-2">✕</span> Shipping to production requires excessive manual boilerplate configurations.</li>
+                </ul>
+            </div>
+            <div class="bg-gray-900/50 p-8 rounded-xl border border-red-500/20 shadow-2xl relative overflow-hidden h-64 flex flex-col justify-center">
+                <div class="text-red-400 font-mono text-xs space-y-2 opacity-80">
+                    <p class="text-purple-400">&gt; npm run dev</p>
+                    <p class="text-red-500">Unhandled Runtime Error: Hydration failed because the initial UI does not match what was rendered on the server...</p>
+                    <p class="text-yellow-500">Warning: Missing STRIPE_SECRET_KEY environment variable.</p>
+                    <p class="text-red-500">ERR_WEBPACK_BUILD_FAILED</p>
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-gray-950 via-transparent to-transparent"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: THE SOLUTION -->
+    <div class="slide" id="slide3">
+        <div class="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="bg-gray-900 p-6 rounded-xl neon-glow-cyan h-72 flex flex-col justify-between">
+                <div class="flex items-center space-x-2 border-b border-gray-800 pb-3">
+                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    <span class="text-xs text-gray-500 font-mono">nexus-ai.local/workspace</span>
+                </div>
+                <div class="flex-1 py-4 font-mono text-sm text-cyan-400 space-y-2">
+                    <p class="text-gray-500">// Deploying Next.js App Core...</p>
+                    <p>&gt; Core Full-Stack Architecture Synthesized successfully.</p>
+                    <p>&gt; Initializing Gemini 1.5 Flash compiler link...</p>
+                    <p class="text-purple-400">&gt; Status: Production Pipeline Active [100% OK]</p>
+                </div>
+            </div>
+            <div>
+                <h2 class="text-4xl font-bold text-cyan-400 mb-6">Meet Nexus AI</h2>
+                <p class="text-xl text-gray-300 mb-6 font-light">A Fully Integrated Development Engine</p>
+                <ul class="space-y-4 text-base text-gray-400">
+                    <li class="flex items-center"><span class="text-cyan-400 mr-3">✔</span> Engineered alongside high-speed compilation models.</li>
+                    <li class="flex items-center"><span class="text-cyan-400 mr-3">✔</span> Real-time automated code execution & structural synthesis.</li>
+                    <li class="flex items-center"><span class="text-cyan-400 mr-3">✔</span> Zero boilerplate setups. Ideas become production deployment targets natively.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: BEHIND THE SCENES -->
+    <div class="slide" id="slide4">
+        <div class="max-w-4xl text-center">
+            <h2 class="text-4xl font-bold text-gray-100 mb-4">Architected with Google Antigravity</h2>
+            <p class="text-xl text-purple-400 mb-12 font-light">Autonomous Multi-Agent Orchestration Framework</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-gray-900/40 p-6 rounded-xl border border-gray-800 hover:border-purple-500/50 transition-colors">
+                    <div class="text-2xl mb-3">🎨</div>
+                    <h3 class="text-lg font-semibold text-gray-200 mb-2">UI Agent</h3>
+                    <p class="text-sm text-gray-400">Perfectly renders responsive interfaces using Tailwind CSS parameters autonomously.</p>
+                </div>
+                <div class="bg-gray-900/40 p-6 rounded-xl border border-gray-800 hover:border-cyan-400/50 transition-colors">
+                    <div class="text-2xl mb-3">⚙️</div>
+                    <h3 class="text-lg font-semibold text-gray-200 mb-2">Backend Agent</h3>
+                    <p class="text-sm text-gray-400">Coordinates isolated runtime environments and executes concurrent API builds.</p>
+                </div>
+                <div class="bg-gray-900/40 p-6 rounded-xl border border-gray-800 hover:border-purple-500/50 transition-colors">
+                    <div class="text-2xl mb-3">📁</div>
+                    <h3 class="text-lg font-semibold text-gray-200 mb-2">Database Agent</h3>
+                    <p class="text-sm text-gray-400">Ensures seamless configuration of environment keys and secure artifact structures.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: THE SOP -->
+    <div class="slide" id="slide5">
+        <h2 class="text-4xl font-bold text-gray-100 mb-12 text-center">The Nexus AI Standard Operating Procedure (SOP)</h2>
+        <div class="max-w-5xl w-full grid grid-cols-1 md:grid-cols-4 gap-6 relative">
+            <div class="bg-gray-900 p-6 rounded-xl border border-cyan-500/20">
+                <div class="text-xs font-mono text-cyan-400 mb-2">01 / IDEATION</div>
+                <h3 class="text-lg font-semibold mb-2 text-white">Universal Chat</h3>
+                <p class="text-sm text-gray-400">Outline architectures and database schema plans instantaneously.</p>
+            </div>
+            <div class="bg-gray-900 p-6 rounded-xl border border-purple-500/20">
+                <div class="text-xs font-mono text-purple-400 mb-2">02 / DOCUMENTATION</div>
+                <h3 class="text-lg font-semibold mb-2 text-white">Artifact Generation</h3>
+                <p class="text-sm text-gray-400">Automatic generation of structural Markdown specs and setup checklists.</p>
+            </div>
+            <div class="bg-gray-900 p-6 rounded-xl border border-cyan-500/20">
+                <div class="text-xs font-mono text-cyan-400 mb-2">03 / SYNTHESIS</div>
+                <h3 class="text-lg font-semibold mb-2 text-white">Code Compilation</h3>
+                <p class="text-sm text-gray-400">Direct synthesis adhering cleanly to Next.js 14 and Tailwind layouts.</p>
+            </div>
+            <div class="bg-gray-900 p-6 rounded-xl border border-purple-500/20">
+                <div class="text-xs font-mono text-purple-400 mb-2">04 / INTEGRITY</div>
+                <h3 class="text-lg font-semibold mb-2 text-white">Verification Check</h3>
+                <p class="text-sm text-gray-400">Automated background builds tracking security headers and TypeScript errors.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: WALKTHROUGH -->
+    <div class="slide" id="slide6">
+        <div class="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div>
+                <span class="text-xs font-mono bg-purple-900/50 text-purple-300 px-3 py-1 rounded-full border border-purple-500/30">Live Demonstration Walkthrough</span>
+                <h2 class="text-4xl font-bold text-white mt-4 mb-6">From Prompt to Product</h2>
+                <blockquote class="border-l-4 border-cyan-400 pl-4 italic text-gray-400 mb-6 text-lg">
+                    "Build a dynamic 5-day weather dashboard with a premium subscription tier powered by Stripe."
+                </blockquote>
+                <ul class="space-y-3 text-sm text-gray-400 font-mono">
+                    <li>&gt; Synthesizing app/api/weather/route.ts ... <span class="text-green-400">[DONE]</span></li>
+                    <li>&gt; Synthesizing app/api/checkout/route.ts ... <span class="text-green-400">[DONE]</span></li>
+                    <li>&gt; Injecting robust data null-guards ... <span class="text-green-400">[COMPLETED]</span></li>
+                </ul>
+            </div>
+            <div class="bg-gray-950 rounded-xl border border-gray-800 p-4 neon-glow-purple h-64 flex flex-col justify-between">
+                <div class="flex items-center justify-between border-b border-gray-900 pb-2 text-xs text-gray-500">
+                    <span>Preview Window: Weather Dashboard App</span>
+                    <span class="text-cyan-400">● Live URL</span>
+                </div>
+                <div class="flex-1 flex flex-col justify-center items-center text-center">
+                    <div class="text-4xl mb-2">🌤️ 28°C</div>
+                    <div class="text-sm font-semibold text-gray-200">Bengaluru, IN</div>
+                    <div class="mt-4 px-4 py-1.5 rounded bg-purple-600 text-xs text-white font-medium tracking-wide cursor-pointer hover:bg-purple-500 transition-colors">Upgrade to Premium Passport</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: ZERO LOCK-IN -->
+    <div class="slide" id="slide7">
+        <div class="max-w-4xl text-center">
+            <h2 class="text-4xl font-bold text-gray-100 mb-4">Zero Platform Lock-In</h2>
+            <p class="text-xl text-cyan-400 mb-12 font-light">Play Anywhere. Complete Ecosystem Integration.</p>
+            
+            <div class="flex flex-col md:flex-row items-center justify-center space-y-6 md:space-y-0 md:space-x-12">
+                <div class="p-6 rounded-xl bg-gray-900 border border-gray-800 w-48 text-center">
+                    <div class="text-3xl mb-2">☁️</div>
+                    <span class="font-mono text-sm text-gray-300">Nexus AI Engine</span>
+                </div>
+                <div class="text-2xl text-cyan-400 animate-pulse font-mono">=== export ===&gt;</div>
+                <div class="p-6 rounded-xl bg-gray-900 border border-cyan-500/30 w-48 text-center neon-glow-cyan">
+                    <div class="text-3xl mb-2">💻</div>
+                    <span class="font-mono text-sm text-white">Local IDE (VS Code)</span>
+                </div>
+            </div>
+            <p class="text-gray-400 mt-12 max-w-xl mx-auto text-sm">
+                Generates completely standard, highly-compliant Next.js and TypeScript configurations. Works flawlessly out of the box with standard Git frameworks and packages.
+            </p>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: GLOBAL DEPLOYMENT -->
+    <div class="slide" id="slide8">
+        <div class="max-w-5xl w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="p-8 rounded-xl bg-gray-950 border border-green-500/20 relative overflow-hidden h-72 flex flex-col justify-between">
+                <div class="text-xs font-mono text-green-400 flex items-center space-x-2">
+                    <span class="inline-block w-2 h-2 rounded-full bg-green-400 animate-ping"></span>
+                    <span>Vercel Deployments Workspace</span>
+                </div>
+                <div class="text-center my-auto space-y-3">
+                    <div class="text-5xl">🎉</div>
+                    <h3 class="text-xl font-bold text-white">Deployment Successful!</h3>
+                    <p class="text-xs text-cyan-400 font-mono underline cursor-pointer">nexus-weather-app.vercel.app</p>
+                </div>
+                <div class="text-[10px] font-mono text-gray-600 text-right">Production Pipeline Edge Live &lt; 60s</div>
+            </div>
+            <div>
+                <h2 class="text-4xl font-bold text-green-400 mb-6">Global Deployment in Seconds</h2>
+                <ol class="space-y-4 text-base text-gray-300 list-decimal list-inside font-light">
+                    <li>Push code layers straight to your <span class="text-white font-medium">GitHub Repository</span>.</li>
+                    <li>Import the project module natively into <span class="text-white font-medium">Vercel</span>.</li>
+                    <li>Paste your required system <span class="text-white font-medium">Environment Variables</span>.</li>
+                </ol>
+                <p class="text-sm text-gray-500 mt-6 font-mono">
+                    SSL generation, responsive security routing headers, and Edge edge distributions are automated instantly.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 9: LIMITLESS POSSIBILITIES -->
+    <div class="slide" id="slide9">
+        <div class="text-center mb-10">
+            <h2 class="text-4xl font-bold text-white mb-2">Limitless Processing Possibilities</h2>
+            <p class="text-gray-400 font-light">Build enterprise-grade platforms from a single browser editor view</p>
+        </div>
+        
+        <div class="max-w-5xl w-full grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="p-6 rounded-xl bg-gray-900/60 border border-gray-800 text-center">
+                <div class="text-3xl mb-2">📈</div>
+                <h4 class="font-semibold text-gray-200 text-sm">SaaS Dashboards</h4>
+            </div>
+            <div class="p-6 rounded-xl bg-gray-900/60 border border-gray-800 text-center">
+                <div class="text-3xl mb-2">🛍️</div>
+                <h4 class="font-semibold text-gray-200 text-sm">E-Commerce Stores</h4>
+            </div>
+            <div class="p-6 rounded-xl bg-gray-900/60 border border-gray-800 text-center">
+                <div class="text-3xl mb-2">👥</div>
+                <h4 class="font-semibold text-gray-200 text-sm">Enterprise CRMs</h4>
+            </div>
+            <div class="p-6 rounded-xl bg-gray-900/60 border border-gray-800 text-center">
+                <div class="text-3xl mb-2">📊</div>
+                <h4 class="font-semibold text-gray-200 text-sm">Data Visualizations</h4>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 10: CONCLUSION -->
+    <div class="slide" id="slide10">
+        <div class="text-center">
+            <h2 class="text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 mb-4">Thank You.</h2>
+            <p class="text-xl text-gray-400 mb-8 font-light">The Era of Frictionless Engineering Is Operational.</p>
+            <div class="inline-block px-6 py-3 rounded-full bg-gray-900 border border-cyan-500/30 font-mono text-sm text-cyan-400 tracking-wide neon-glow-cyan mb-12">
+                Start Building Today: <span class="text-white">nexus-ai.local</span>
+            </div>
+            <p class="text-xs text-gray-600 uppercase tracking-widest">Presenter: Moksha Sripad, Founder</p>
+        </div>
+    </div>
+
+    <!-- Navigation Core Script -->
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (index + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') showSlide(currentSlide + 1);
+            if (e.key === 'ArrowLeft') showSlide(currentSlide - 1);
+        });
+    </script>
+</body>
+</html>

@@ -50,24 +50,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 <span className="relative z-10">Universal Chat</span>
               </Link>
               
-              <Link
-                href="/dashboard/coder"
-                className={`flex items-center gap-2.5 px-3 py-1.5 rounded-md text-[13px] font-medium transition-colors relative ${
-                  pathname === "/dashboard/coder" 
-                    ? "text-white" 
-                    : "text-gray-400 hover:bg-white/5 hover:text-gray-200"
-                }`}
-              >
-                {pathname === "/dashboard/coder" && (
-                  <motion.div 
-                    layoutId="active-nav"
-                    className="absolute inset-0 bg-white/10 rounded-md"
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                  />
-                )}
-                <Command className="w-4 h-4 relative z-10" strokeWidth={2} />
-                <span className="relative z-10">AI Coder</span>
-              </Link>
+
             </nav>
           </div>
           <div>

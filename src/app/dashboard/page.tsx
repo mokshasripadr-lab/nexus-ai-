@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/AuthProvider";
-import { Loader2, MessageSquare, Code, ArrowRight } from "lucide-react";
+import { Loader2, MessageSquare, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
@@ -43,7 +43,7 @@ export default function DashboardOverview() {
         <p className="text-gray-400">What would you like to build today?</p>
       </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
         <Link href="/dashboard/chat" className="group">
           <div className="bg-[#111] border border-white/10 rounded-2xl p-8 hover:bg-white/5 transition-all duration-300 h-full flex flex-col relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -60,21 +60,7 @@ export default function DashboardOverview() {
           </div>
         </Link>
 
-        <Link href="/dashboard/coder" className="group">
-          <div className="bg-[#111] border border-white/10 rounded-2xl p-8 hover:bg-white/5 transition-all duration-300 h-full flex flex-col relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-            <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center mb-6 relative z-10">
-              <Code className="w-6 h-6 text-emerald-400" />
-            </div>
-            <h2 className="text-xl font-semibold text-white mb-3 relative z-10">AI Coder</h2>
-            <p className="text-gray-400 text-sm leading-relaxed flex-1 relative z-10">
-              Generate entire React components and complex UI structures with Gemini 2.5 Pro.
-            </p>
-            <div className="mt-6 flex items-center gap-2 text-emerald-400 text-sm font-medium relative z-10 group-hover:gap-3 transition-all">
-              Start coding <ArrowRight className="w-4 h-4" />
-            </div>
-          </div>
-        </Link>
+
       </div>
 
       <div className="mt-12 bg-[#0a0a0a] border border-white/10 rounded-xl p-6">

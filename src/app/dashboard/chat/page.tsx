@@ -87,7 +87,7 @@ export default function UniversalChatPage() {
 
   // Save chat history
   useEffect(() => {
-    if (user && initialLoaded && messages.length > 0 && !isLoading) {
+    if (user && initialLoaded && !isLoading) {
       const docRef = doc(db, 'users', user.uid, 'chatHistory', 'default');
       // Firebase doesn't allow undefined values, so we strip them out by stringifying and parsing
       const sanitizedMessages = JSON.parse(JSON.stringify(messages));
@@ -113,7 +113,6 @@ export default function UniversalChatPage() {
 
   return (
     <div className="flex flex-col h-[calc(100dvh-56px)]">
-      {/* Header */}
       <div className="h-16 border-b border-white/5 shrink-0 flex items-center justify-between px-6 bg-[#000000] sticky top-0 z-10">
         <div className="flex flex-col">
           <h1 className="text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400 flex items-center gap-2">
@@ -122,9 +121,19 @@ export default function UniversalChatPage() {
           </h1>
           <p className="text-sm text-gray-500 mt-1">Interact with leading AI models.</p>
         </div>
-        <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-full px-4 py-2">
-          <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="text-sm text-gray-300">Powered by Nexus AI</span>
+        <div className="flex items-center gap-4">
+          {messages.length > 0 && (
+            <button 
+              onClick={() => setMessages([])} 
+              className="text-[11px] font-medium text-red-400 hover:text-red-300 px-3 py-1.5 border border-red-500/20 rounded-full hover:bg-red-500/10 transition-colors"
+            >
+              Clear Chat
+            </button>
+          )}
+          <div className="flex items-center gap-3 bg-white/5 border border-white/10 rounded-full px-4 py-2">
+            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-sm text-gray-300 hidden sm:block">Powered by Nexus AI</span>
+          </div>
         </div>
       </div>
 
