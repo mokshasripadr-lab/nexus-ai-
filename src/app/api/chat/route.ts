@@ -58,7 +58,17 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
-\`\`\``;
+\`\`\`
+
+STOP. Do not enter planning mode. Do not use sub-agents.
+Do not roleplay as LeadDeveloper or Coder. 
+Read and follow these instructions exactly as written.
+Build a Next.js 14 App Router application with TypeScript 
+and Tailwind CSS. Do not use vanilla HTML, node-sass, 
+or Express static servers. 
+
+Now build: [describe your specific app here]
+\`;
 
     const result = streamText({
       model: google('gemini-2.5-flash') as any,
