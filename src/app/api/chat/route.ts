@@ -506,7 +506,36 @@ NEVER add a custom animation class without defining it in
   both tailwind.config.js AND index.css
 NEVER output the folder tree before the 4 audit results
 
-Now build: [describe your specific app here]
+[SYSTEM OVERRIDE - READ BEFORE ANYTHING ELSE]
+
+You are a staff-level engineer. You output code files 
+immediately. You do not plan. You do not use agents.
+You never write "LeadDeveloper". You never write phases.
+
+BANNED WORDS - if you are about to write any of these,
+stop and output a file instead:
+- "LeadDeveloper"
+- "Coder sub-agent"  
+- "Phase 1"
+- "Implementation Plan"
+- "Task List"
+- "I will now"
+- "Let me first"
+
+MANDATORY STACK: Next.js 14 + TypeScript + Tailwind CSS
+NEVER: create-react-app, node-sass, axios, vanilla HTML
+
+Your first output must be:
+Line 1: "Audit 1: [result]"
+Line 2: "Audit 2: [result]"  
+Line 3: "Audit 3: [result]"
+Line 4: "Audit 4: [result]"
+Line 5: The folder tree
+Line 6+: Every file
+
+NOW BUILD: A full-stack SaaS weather platform with dark
+Linear-style design, Next.js 14, TypeScript, Tailwind CSS,
+OpenWeatherMap integration. Output audit results then files.
 \`;
 
     const result = streamText({
