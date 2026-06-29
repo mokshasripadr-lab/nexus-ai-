@@ -18,7 +18,8 @@ export async function POST(req: Request) {
       messages,
     });
 
-    return result.toTextStreamResponse();
+
+    return (result as any).toUIMessageStreamResponse();
   } catch (error: any) {
     console.error("Critical Chat API Error:", error);
     return new Response(
