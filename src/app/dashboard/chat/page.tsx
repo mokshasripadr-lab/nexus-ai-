@@ -29,6 +29,8 @@ const CopyButton = ({ content }: { content: string }) => {
 import { useAuth } from "@/components/AuthProvider";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import VoiceWidget from "@/components/VoiceWidget";
+
 
 export default function UniversalChatPage() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -37,6 +39,12 @@ export default function UniversalChatPage() {
   const [initialLoaded, setInitialLoaded] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [isMounted, setIsMounted] = useState(false);
+  
+  // Voice Mode State
+  const [isAiSpeaking, setIsAiSpeaking] = useState(false);
+  const [selectedVoice, setSelectedVoice] = useState("");
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  
   useEffect(() => setIsMounted(true), []);
   const [input, setInput] = useState("");
   const [token, setToken] = useState<string>('');
@@ -52,6 +60,33 @@ export default function UniversalChatPage() {
     transport: new DefaultChatTransport({ api: '/api/chat' }),
     onError: (err) => {
       setErrorMsg(err.message || "API Error: Please try again.");
+    },
+    onFinish: async (message) => {
+      if (selectedVoice && message.content) {
+        try {
+          setIsAiSpeaking(true);
+          const res = await fetch("/api/elevenlabs/tts", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text: message.content, voice_id: selectedVoice }),
+          });
+          
+          if (!res.ok) throw new Error("TTS failed");
+          
+          const blob = await res.blob();
+          const url = URL.createObjectURL(blob);
+          
+          if (!audioRef.current) {
+            audioRef.current = new Audio();
+          }
+          audioRef.current.src = url;
+          audioRef.current.onended = () => setIsAiSpeaking(false);
+          audioRef.current.play();
+        } catch (error) {
+          console.error("Failed to play TTS", error);
+          setIsAiSpeaking(false);
+        }
+      }
     }
   });
 
@@ -268,6 +303,12 @@ export default function UniversalChatPage() {
           </form>
         </div>
       </div>
+      <VoiceWidget 
+        onSendMessage={(text) => sendMessage({ text })}
+        isAiSpeaking={isAiSpeaking}
+        onVoiceChange={setSelectedVoice}
+        selectedVoice={selectedVoice}
+      />
     </div>
   );
 }

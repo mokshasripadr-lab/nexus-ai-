@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, Command, MessageSquare } from "lucide-react";
+import { Search, Command, MessageSquare, Terminal } from "lucide-react";
 import { useAuth } from "@/components/AuthProvider";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
@@ -48,6 +48,25 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 )}
                 <MessageSquare className="w-4 h-4 relative z-10" strokeWidth={2} />
                 <span className="relative z-10">Universal Chat</span>
+              </Link>
+              
+              <Link
+                href="/dashboard/antigravity"
+                className={`flex items-center gap-2.5 px-3 py-1.5 rounded-md text-[13px] font-medium transition-colors relative ${
+                  pathname === "/dashboard/antigravity" 
+                    ? "text-white" 
+                    : "text-gray-400 hover:bg-white/5 hover:text-gray-200"
+                }`}
+              >
+                {pathname === "/dashboard/antigravity" && (
+                  <motion.div 
+                    layoutId="active-nav"
+                    className="absolute inset-0 bg-white/10 rounded-md"
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  />
+                )}
+                <Terminal className="w-4 h-4 relative z-10" strokeWidth={2} />
+                <span className="relative z-10">Antigravity Agent</span>
               </Link>
               
 
