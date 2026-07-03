@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from 'next/server';
 
 const ELEVENLABS_API_KEY = "4562438be24c2d704f66abcd51f2978b41d45442abc219138b358f011cb73650";
