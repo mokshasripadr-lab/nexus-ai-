@@ -62,7 +62,8 @@ export default function UniversalChatPage() {
       setErrorMsg(err.message || "API Error: Please try again.");
     },
     onFinish: async (event) => {
-      const msgContent = event?.message?.content;
+      const msg = event?.message as any;
+      const msgContent = msg?.content || (msg?.parts ? msg.parts.map((p: any) => p.type === 'text' ? (p.text || '') : '').join('') : '');
       if (selectedVoice && msgContent) {
         try {
           setIsAiSpeaking(true);
