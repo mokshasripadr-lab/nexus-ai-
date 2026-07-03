@@ -61,14 +61,15 @@ export default function UniversalChatPage() {
     onError: (err) => {
       setErrorMsg(err.message || "API Error: Please try again.");
     },
-    onFinish: async (message) => {
-      if (selectedVoice && message.content) {
+    onFinish: async (event) => {
+      const msgContent = event?.message?.content;
+      if (selectedVoice && msgContent) {
         try {
           setIsAiSpeaking(true);
           const res = await fetch("/api/elevenlabs/tts", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ text: message.content, voice_id: selectedVoice }),
+            body: JSON.stringify({ text: msgContent, voice_id: selectedVoice }),
           });
           
           if (!res.ok) throw new Error("TTS failed");
