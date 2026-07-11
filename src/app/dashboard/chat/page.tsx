@@ -294,23 +294,25 @@ export default function UniversalChatPage() {
               <div className="flex items-center gap-4 text-xs text-gray-500">
                 <span>Press Enter to send</span>
               </div>
-              <button 
-                type="submit"
-                className={`p-2 rounded-md transition-colors ${input?.trim() && !isLoading ? 'bg-white text-black hover:bg-gray-200' : 'bg-white/10 text-gray-500 cursor-not-allowed'}`}
-                disabled={!input?.trim() || isLoading}
-              >
-                {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <CornerDownLeft className="w-4 h-4" />}
-              </button>
+              <div className="flex items-center gap-2">
+                <VoiceWidget 
+                  onSendMessage={(text) => sendMessage({ text })}
+                  isAiSpeaking={isAiSpeaking}
+                  onVoiceChange={setSelectedVoice}
+                  selectedVoice={selectedVoice}
+                />
+                <button 
+                  type="submit"
+                  className={`p-2 rounded-md transition-colors ${input?.trim() && !isLoading ? 'bg-white text-black hover:bg-gray-200' : 'bg-white/10 text-gray-500 cursor-not-allowed'}`}
+                  disabled={!input?.trim() || isLoading}
+                >
+                  {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <CornerDownLeft className="w-4 h-4" />}
+                </button>
+              </div>
             </div>
           </form>
         </div>
       </div>
-      <VoiceWidget 
-        onSendMessage={(text) => sendMessage({ text })}
-        isAiSpeaking={isAiSpeaking}
-        onVoiceChange={setSelectedVoice}
-        selectedVoice={selectedVoice}
-      />
     </div>
   );
 }
