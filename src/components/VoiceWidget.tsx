@@ -26,7 +26,7 @@ export default function VoiceWidget({ onSendMessage, isAiSpeaking, onVoiceChange
   const [loadingVoices, setLoadingVoices] = useState(false);
 
   useEffect(() => {
-    if (isOpen && voices.length === 0) {
+    if (voices.length === 0) {
       setLoadingVoices(true);
       fetch("/api/elevenlabs/voices")
         .then((res) => res.json())
@@ -34,14 +34,15 @@ export default function VoiceWidget({ onSendMessage, isAiSpeaking, onVoiceChange
           if (data && data.voices) {
             setVoices(data.voices);
             if (!selectedVoice && data.voices.length > 0) {
-              onVoiceChange(data.voices[0].voice_id);
+              const defaultVoice = data.voices.find((v: any) => v.name === 'Rachel') || data.voices[0];
+              onVoiceChange(defaultVoice.voice_id);
             }
           }
         })
         .catch(console.error)
         .finally(() => setLoadingVoices(false));
     }
-  }, [isOpen, voices.length, onVoiceChange, selectedVoice]);
+  }, [voices.length, onVoiceChange, selectedVoice]);
 
   useEffect(() => {
     // Initialize SpeechRecognition
@@ -100,9 +101,9 @@ export default function VoiceWidget({ onSendMessage, isAiSpeaking, onVoiceChange
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0, opacity: 0 }}
             onClick={() => setIsOpen(true)}
-            className="fixed bottom-24 right-8 w-14 h-14 bg-violet-600 rounded-full shadow-[0_0_20px_rgba(139,92,246,0.3)] flex items-center justify-center text-white hover:bg-violet-500 transition-colors z-50 group"
+            className="fixed bottom-24 right-8 w-10 h-10 bg-violet-600 rounded-full shadow-[0_0_15px_rgba(139,92,246,0.3)] flex items-center justify-center text-white hover:bg-violet-500 transition-colors z-50 group"
           >
-            <Volume2 className="w-6 h-6 group-hover:scale-110 transition-transform" />
+            <Volume2 className="w-4 h-4 group-hover:scale-110 transition-transform" />
           </motion.button>
         )}
       </AnimatePresence>
