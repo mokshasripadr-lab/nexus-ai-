@@ -44,7 +44,7 @@ export default function DashboardOverview() {
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
-        <Link href="/dashboard/c" className="group">
+        <Link href="/dashboard/chat" className="group">
           <div className="bg-[#111] border border-white/10 rounded-2xl p-8 hover:bg-white/5 transition-all duration-300 h-full flex flex-col relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-violet-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
             <div className="w-12 h-12 rounded-xl bg-violet-500/20 flex items-center justify-center mb-6 relative z-10">
@@ -70,7 +70,7 @@ export default function DashboardOverview() {
             type="text" 
             placeholder="Ask a question to start a new chat..." 
             className="w-full bg-[#111] border border-white/10 rounded-lg py-3 px-4 text-sm text-gray-200 placeholder-gray-600 focus:outline-none focus:border-violet-500/50 transition-colors"
-            onClick={() => router.push('/dashboard/c')}
+            onClick={() => router.push('/dashboard/chat')}
             readOnly
           />
         </div>
