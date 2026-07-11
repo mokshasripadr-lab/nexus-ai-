@@ -32,14 +32,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <div className="text-[11px] font-medium text-gray-500 mb-2 px-3">Engines</div>
             <nav className="space-y-0.5">
               <Link
-                href="/dashboard/chat"
+                href="/dashboard/c"
                 className={`flex items-center gap-2.5 px-3 py-1.5 rounded-md text-[13px] font-medium transition-colors relative ${
-                  pathname === "/dashboard/chat" 
+                  pathname === "/dashboard/c" 
                     ? "text-white" 
                     : "text-gray-400 hover:bg-white/5 hover:text-gray-200"
                 }`}
               >
-                {pathname === "/dashboard/chat" && (
+                {pathname === "/dashboard/c" && (
                   <motion.div 
                     layoutId="active-nav"
                     className="absolute inset-0 bg-white/10 rounded-md"
@@ -76,7 +76,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             <div className="text-[11px] font-medium text-gray-500 mb-2 px-3 mt-6">Recent Chats</div>
             <nav className="space-y-0.5">
               <Link
-                href="/dashboard/chat"
+                href="/dashboard/c"
                 className="flex items-center gap-2.5 px-3 py-1.5 rounded-md text-[13px] font-medium text-gray-400 hover:bg-white/5 hover:text-gray-200 transition-colors"
               >
                 <MessageSquare className="w-4 h-4" />
