@@ -7,8 +7,10 @@ import {
   Settings, AlertCircle, Loader2, Sparkles, Copy, FileText, Check 
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAuth } from "@/components/AuthProvider";
 
 export default function AntigravityAgentPage() {
+  const { user } = useAuth();
   const [query, setQuery] = useState("Initialize the project structure and build the core routing logic for Nexus AI 2.0.");
   const [isRunning, setIsRunning] = useState(false);
   const [status, setStatus] = useState<"idle" | "running" | "completed" | "failed">("idle");
@@ -70,9 +72,17 @@ async def main():
     setActiveView("terminal");
 
     try {
+      let token = "";
+      if (user) {
+        token = await user.getIdToken();
+      }
+      const headers: Record<string, string> = { "Content-Type": "application/json" };
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
       const response = await fetch("/api/agent/run", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({ query })
       });
 

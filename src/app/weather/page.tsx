@@ -2,19 +2,32 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { useAuth } from "@/components/AuthProvider";
 
 export default function WeatherPage() {
   const [weather, setWeather] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
 
   useEffect(() => {
-    fetch('/api/weather?city=London')
-      .then(res => res.json())
-      .then(data => {
+    const fetchWeather = async () => {
+      try {
+        const headers: Record<string, string> = {};
+        if (user) {
+          const token = await user.getIdToken();
+          headers["Authorization"] = `Bearer ${token}`;
+        }
+        const res = await fetch('/api/weather?city=London', { headers });
+        const data = await res.json();
         setWeather(data);
+      } catch (err) {
+        console.error("Error fetching weather:", err);
+      } finally {
         setLoading(false);
-      });
-  }, []);
+      }
+    };
+    fetchWeather();
+  }, [user]);
 
   if (loading) return <div className="p-10 text-white">Loading weather...</div>;
 

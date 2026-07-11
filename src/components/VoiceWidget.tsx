@@ -14,9 +14,10 @@ interface VoiceWidgetProps {
   isAiSpeaking: boolean;
   onVoiceChange: (voiceId: string) => void;
   selectedVoice: string;
+  token?: string;
 }
 
-export default function VoiceWidget({ onSendMessage, isAiSpeaking, onVoiceChange, selectedVoice }: VoiceWidgetProps) {
+export default function VoiceWidget({ onSendMessage, isAiSpeaking, onVoiceChange, selectedVoice, token }: VoiceWidgetProps) {
   const [voices, setVoices] = useState<Voice[]>([]);
   const [isListening, setIsListening] = useState(false);
   const recognitionRef = useRef<any>(null);
@@ -25,7 +26,11 @@ export default function VoiceWidget({ onSendMessage, isAiSpeaking, onVoiceChange
   useEffect(() => {
     if (voices.length === 0) {
       setLoadingVoices(true);
-      fetch("/api/elevenlabs/voices")
+      const headers: Record<string, string> = {};
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
+      fetch("/api/elevenlabs/voices", { headers })
         .then((res) => res.json())
         .then((data) => {
           if (data && data.voices) {

@@ -1,13 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from 'next/server';
+import { verifyAuth } from '@/lib/firebase-admin';
 
-const ELEVENLABS_API_KEY = "4562438be24c2d704f66abcd51f2978b41d45442abc219138b358f011cb73650";
+export const dynamic = 'force-dynamic';
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
+    const authUser = await verifyAuth(req);
+    if (!authUser) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const apiKey = process.env.ELEVENLABS_API_KEY;
+    if (!apiKey) {
+      return NextResponse.json({ error: 'TTS engine not configured.' }, { status: 500 });
+    }
+
     const response = await fetch('https://api.elevenlabs.io/v1/voices', {
       headers: {
-        'xi-api-key': ELEVENLABS_API_KEY,
+        'xi-api-key': apiKey,
       },
     });
 
@@ -19,6 +30,7 @@ export async function GET() {
     return NextResponse.json(data);
   } catch (error: any) {
     console.error('Error fetching voices:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: 'Failed to fetch voices' }, { status: 500 });
   }
 }
+

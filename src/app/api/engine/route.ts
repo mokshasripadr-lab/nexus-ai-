@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { google } from '@ai-sdk/google';
 import { streamText } from 'ai';
+import { verifyAuth } from '@/lib/firebase-admin';
 
 export const runtime = 'nodejs';
 export const maxDuration = 60;
@@ -29,6 +30,14 @@ function toCoreMessages(messages: any[]): { role: string; content: string }[] {
 
 export async function POST(req: Request) {
   try {
+    const authUser = await verifyAuth(req);
+    if (!authUser) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+        status: 401,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
     const { messages } = await req.json();
 
     const coreMessages = toCoreMessages(messages || []);
@@ -51,20 +60,21 @@ export async function POST(req: Request) {
 
     return (result as any).toUIMessageStreamResponse({
       onError: (error: any) => {
-        console.error("Internal streamText Error:", error);
-        return `Backend Crash: ${error.message || String(error)}`;
+        const errorId = Math.random().toString(36).substring(7);
+        console.error(`[Engine Error ${errorId}]:`, error);
+        return `Backend Crash: An unexpected error occurred. Ref: ${errorId}`;
       }
     });
   } catch (error: any) {
-    console.error("Critical Chat API Error:", error);
+    const errorId = Math.random().toString(36).substring(7);
+    console.error(`[Critical Engine Error ${errorId}]:`, error);
     const encoder = new TextEncoder();
     const stream = new ReadableStream({
       start(controller) {
         controller.enqueue(encoder.encode(`data: {"type":"start"}\n\n`));
         controller.enqueue(encoder.encode(`data: {"type":"start-step"}\n\n`));
         controller.enqueue(encoder.encode(`data: {"type":"text-start","id":"error"}\n\n`));
-        const errMsg = (error.message || "Unknown error").replace(/"/g, '\\"').replace(/\n/g, '\\n');
-        controller.enqueue(encoder.encode(`data: {"type":"text-delta","id":"error","delta":"API Error: ${errMsg}"}\n\n`));
+        controller.enqueue(encoder.encode(`data: {"type":"text-delta","id":"error","delta":"API Error: An unexpected error occurred. Reference ID: ${errorId}"}\n\n`));
         controller.enqueue(encoder.encode(`data: {"type":"text-end","id":"error"}\n\n`));
         controller.enqueue(encoder.encode(`data: {"type":"finish-step"}\n\n`));
         controller.enqueue(encoder.encode(`data: {"type":"finish","finishReason":"error"}\n\n`));
@@ -75,4 +85,5 @@ export async function POST(req: Request) {
     return new Response(stream, { headers: { 'Content-Type': 'text/event-stream' } });
   }
 }
+
 

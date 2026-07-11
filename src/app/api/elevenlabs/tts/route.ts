@@ -1,10 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from 'next/server';
+import { verifyAuth } from '@/lib/firebase-admin';
 
-const ELEVENLABS_API_KEY = "4562438be24c2d704f66abcd51f2978b41d45442abc219138b358f011cb73650";
+export const dynamic = 'force-dynamic';
 
 export async function POST(req: Request) {
   try {
+    const authUser = await verifyAuth(req);
+    if (!authUser) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const apiKey = process.env.ELEVENLABS_API_KEY;
+    if (!apiKey) {
+      return NextResponse.json({ error: 'TTS engine not configured.' }, { status: 500 });
+    }
+
     const { text, voice_id } = await req.json();
 
     if (!text || !voice_id) {
@@ -18,7 +29,7 @@ export async function POST(req: Request) {
       method: 'POST',
       headers: {
         'Accept': 'audio/mpeg',
-        'xi-api-key': ELEVENLABS_API_KEY,
+        'xi-api-key': apiKey,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -46,6 +57,7 @@ export async function POST(req: Request) {
 
   } catch (error: any) {
     console.error('Error in TTS API:', error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ error: 'TTS synthesis failed' }, { status: 500 });
   }
 }
+

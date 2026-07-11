@@ -62,7 +62,10 @@ export default function UniversalChatPage() {
   }, [user]);
 
   const { messages, setMessages, sendMessage, status } = useChat({
-    transport: new DefaultChatTransport({ api: '/api/engine' }),
+    transport: new DefaultChatTransport({ 
+      api: '/api/engine',
+      headers: token ? { 'Authorization': `Bearer ${token}` } : {},
+    }),
     onError: (err: any) => {
       console.error("useChat Error:", err);
       const detailedError = err?.message || String(err) || "Unknown error";
@@ -75,9 +78,13 @@ export default function UniversalChatPage() {
       if (currentVoice && msgContent) {
         try {
           setIsAiSpeaking(true);
+          const headers: Record<string, string> = { "Content-Type": "application/json" };
+          if (token) {
+            headers["Authorization"] = `Bearer ${token}`;
+          }
           const res = await fetch("/api/elevenlabs/tts", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers,
             body: JSON.stringify({ text: msgContent, voice_id: currentVoice }),
           });
           
@@ -304,6 +311,7 @@ export default function UniversalChatPage() {
                 isAiSpeaking={isAiSpeaking}
                 onVoiceChange={setSelectedVoice}
                 selectedVoice={selectedVoice}
+                token={token}
               />
               <button 
                 type="submit"

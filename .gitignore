@@ -36,3 +36,12 @@ yarn-error.log*
 next-env.d.ts
 eduflow-preview
 edunexus-preview
+
+# testing scripts and temp logs
+test*.js
+test_*.js
+*.txt
+out.html
+test.ts
+test.css
+

@@ -15,19 +15,28 @@ export async function GET(req: Request, { params }: { params: Promise<{ domain: 
         status: 200,
         headers: {
           'Content-Type': 'text/html; charset=utf-8',
+          // Sandbox the HTML to prevent it accessing cookies/localStorage/credentials of the main domain
+          'Content-Security-Policy': 'sandbox allow-scripts allow-popups;',
         },
       });
     } else {
       return new Response('<h1>404 - Site Not Found</h1><p>This site has not been published or does not exist.</p>', {
         status: 404,
-        headers: { 'Content-Type': 'text/html' },
+        headers: { 
+          'Content-Type': 'text/html',
+          'Content-Security-Policy': 'sandbox allow-scripts allow-popups;',
+        },
       });
     }
   } catch (error) {
     console.error('Fetch Site Error:', error);
     return new Response('<h1>500 - Internal Server Error</h1>', {
       status: 500,
-      headers: { 'Content-Type': 'text/html' },
+      headers: { 
+        'Content-Type': 'text/html',
+        'Content-Security-Policy': 'sandbox allow-scripts allow-popups;',
+      },
     });
   }
 }
+
