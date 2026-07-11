@@ -2,8 +2,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Mic, MicOff, Volume2, X, ChevronUp, Loader2 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Mic, MicOff, Volume2, ChevronUp, Loader2 } from "lucide-react";
 
 interface Voice {
   voice_id: string;
@@ -18,10 +17,8 @@ interface VoiceWidgetProps {
 }
 
 export default function VoiceWidget({ onSendMessage, isAiSpeaking, onVoiceChange, selectedVoice }: VoiceWidgetProps) {
-  const [isOpen, setIsOpen] = useState(false);
   const [voices, setVoices] = useState<Voice[]>([]);
   const [isListening, setIsListening] = useState(false);
-  const [transcript, setTranscript] = useState("");
   const recognitionRef = useRef<any>(null);
   const [loadingVoices, setLoadingVoices] = useState(false);
 
@@ -58,7 +55,9 @@ export default function VoiceWidget({ onSendMessage, isAiSpeaking, onVoiceChange
           for (let i = event.resultIndex; i < event.results.length; i++) {
             currentTranscript += event.results[i][0].transcript;
           }
-          setTranscript(currentTranscript);
+          if (currentTranscript.trim()) {
+            onSendMessage(currentTranscript);
+          }
         };
 
         recognitionRef.current.onerror = (event: any) => {
@@ -68,13 +67,6 @@ export default function VoiceWidget({ onSendMessage, isAiSpeaking, onVoiceChange
 
         recognitionRef.current.onend = () => {
           setIsListening(false);
-          // If we have a transcript, send it
-          setTranscript((prev) => {
-            if (prev.trim()) {
-              onSendMessage(prev);
-            }
-            return "";
-          });
         };
       }
     }
@@ -85,7 +77,6 @@ export default function VoiceWidget({ onSendMessage, isAiSpeaking, onVoiceChange
       recognitionRef.current?.stop();
       setIsListening(false);
     } else {
-      setTranscript("");
       recognitionRef.current?.start();
       setIsListening(true);
     }

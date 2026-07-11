@@ -279,36 +279,31 @@ export default function UniversalChatPage() {
             </div>
           )}
           <div className="absolute inset-0 bg-gradient-to-r from-violet-500/20 to-cyan-500/20 blur-xl opacity-20 pointer-events-none" />
-          <form onSubmit={onSubmit} className="relative bg-[#0a0a0a] border border-white/10 rounded-xl shadow-2xl overflow-hidden focus-within:border-white/20 transition-colors">
+          <form onSubmit={onSubmit} className="relative bg-[#111] border border-white/10 rounded-3xl shadow-2xl focus-within:border-white/30 transition-colors flex flex-col overflow-hidden">
             <textarea 
               ref={textareaRef}
-              rows={2}
+              rows={3}
               value={input || ''}
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
               placeholder="Message Nexus AI..."
-              className="w-full bg-transparent border-none outline-none resize-none p-4 text-sm text-gray-200 placeholder-gray-600"
+              className="w-full bg-transparent border-none outline-none resize-none px-5 py-4 pb-14 text-sm text-gray-200 placeholder-gray-500"
               disabled={isLoading}
             />
-            <div className="flex items-center justify-between px-4 py-3 bg-[#111] border-t border-white/5">
-              <div className="flex items-center gap-4 text-xs text-gray-500">
-                <span>Press Enter to send</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <VoiceWidget 
-                  onSendMessage={(text) => sendMessage({ text })}
-                  isAiSpeaking={isAiSpeaking}
-                  onVoiceChange={setSelectedVoice}
-                  selectedVoice={selectedVoice}
-                />
-                <button 
-                  type="submit"
-                  className={`p-2 rounded-md transition-colors ${input?.trim() && !isLoading ? 'bg-white text-black hover:bg-gray-200' : 'bg-white/10 text-gray-500 cursor-not-allowed'}`}
-                  disabled={!input?.trim() || isLoading}
-                >
-                  {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <CornerDownLeft className="w-4 h-4" />}
-                </button>
-              </div>
+            <div className="absolute bottom-3 right-3 flex items-center gap-2">
+              <VoiceWidget 
+                onSendMessage={(text) => sendMessage({ text })}
+                isAiSpeaking={isAiSpeaking}
+                onVoiceChange={setSelectedVoice}
+                selectedVoice={selectedVoice}
+              />
+              <button 
+                type="submit"
+                className={`p-2 rounded-full transition-colors flex items-center justify-center h-10 w-10 ${input?.trim() && !isLoading ? 'bg-white text-black hover:bg-gray-200' : 'bg-white/10 text-gray-500 cursor-not-allowed'}`}
+                disabled={!input?.trim() || isLoading}
+              >
+                {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <CornerDownLeft className="w-5 h-5" />}
+              </button>
             </div>
           </form>
         </div>
