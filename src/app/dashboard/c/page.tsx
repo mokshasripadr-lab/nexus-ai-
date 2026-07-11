@@ -62,9 +62,11 @@ export default function UniversalChatPage() {
   }, [user]);
 
   const { messages, setMessages, sendMessage, status } = useChat({
-    transport: new DefaultChatTransport({ api: '/api/chat' }),
-    onError: (err) => {
-      setErrorMsg(err.message || "API Error: Please try again.");
+    transport: new DefaultChatTransport({ api: '/api/engine' }),
+    onError: (err: any) => {
+      console.error("useChat Error:", err);
+      const detailedError = err?.message || String(err) || "Unknown error";
+      setErrorMsg(`API Error: ${detailedError} (Check console for details)`);
     },
     onFinish: async (message) => {
       const msg = message as any;
