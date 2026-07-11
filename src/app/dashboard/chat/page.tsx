@@ -43,8 +43,13 @@ export default function UniversalChatPage() {
   // Voice Mode State
   const [isAiSpeaking, setIsAiSpeaking] = useState(false);
   const [selectedVoice, setSelectedVoice] = useState("");
+  const selectedVoiceRef = useRef(selectedVoice);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   
+  useEffect(() => {
+    selectedVoiceRef.current = selectedVoice;
+  }, [selectedVoice]);
+
   useEffect(() => setIsMounted(true), []);
   const [input, setInput] = useState("");
   const [token, setToken] = useState<string>('');
@@ -61,16 +66,17 @@ export default function UniversalChatPage() {
     onError: (err) => {
       setErrorMsg(err.message || "API Error: Please try again.");
     },
-    onFinish: async (event) => {
-      const msg = event?.message as any;
+    onFinish: async (message) => {
+      const msg = message as any;
       const msgContent = msg?.content || (msg?.parts ? msg.parts.map((p: any) => p.type === 'text' ? (p.text || '') : '').join('') : '');
-      if (selectedVoice && msgContent) {
+      const currentVoice = selectedVoiceRef.current;
+      if (currentVoice && msgContent) {
         try {
           setIsAiSpeaking(true);
           const res = await fetch("/api/elevenlabs/tts", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ text: msgContent, voice_id: selectedVoice }),
+            body: JSON.stringify({ text: msgContent, voice_id: currentVoice }),
           });
           
           if (!res.ok) throw new Error("TTS failed");
