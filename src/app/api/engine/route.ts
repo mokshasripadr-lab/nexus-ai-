@@ -21,7 +21,12 @@ export async function POST(req: Request) {
       messages: validMessages,
     });
 
-    return (result as any).toUIMessageStreamResponse();
+    return (result as any).toUIMessageStreamResponse({
+      onError: (error: any) => {
+        console.error("Internal streamText Error:", error);
+        return `Backend Crash: ${error.message || String(error)}`;
+      }
+    });
   } catch (error: any) {
     console.error("Critical Chat API Error:", error);
     const encoder = new TextEncoder();
