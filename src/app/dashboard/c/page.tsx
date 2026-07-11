@@ -61,7 +61,7 @@ export default function UniversalChatPage() {
     }
   }, [user]);
 
-  const { messages, setMessages, append, status } = useChat({
+  const { messages, setMessages, sendMessage, status } = useChat({
     transport: new DefaultChatTransport({ api: '/api/engine' }),
     onError: (err: any) => {
       console.error("useChat Error:", err);
@@ -107,7 +107,7 @@ export default function UniversalChatPage() {
     e?.preventDefault();
     if (!input?.trim() || isLoading) return;
     setErrorMsg(null);
-    append({ role: 'user', content: input });
+    sendMessage({ text: input });
     setInput("");
   };
 
@@ -145,7 +145,7 @@ export default function UniversalChatPage() {
       e.preventDefault();
       if (!input?.trim() || isLoading) return;
       setErrorMsg(null);
-      append({ role: 'user', content: input });
+      sendMessage({ text: input });
       setInput("");
     }
   };
@@ -300,7 +300,7 @@ export default function UniversalChatPage() {
             />
             <div className="absolute bottom-3 right-3 flex items-center gap-2">
               <VoiceWidget 
-                onSendMessage={(text) => append({ role: 'user', content: text })}
+                onSendMessage={(text) => sendMessage({ text })}
                 isAiSpeaking={isAiSpeaking}
                 onVoiceChange={setSelectedVoice}
                 selectedVoice={selectedVoice}
