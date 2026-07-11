@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     console.log("RECEIVED MESSAGES:", JSON.stringify(messages, null, 2));
 
     // Sanitize messages to remove any null, undefined, or malformed entries that crash streamText
-    const validMessages = (messages || []).filter((m: any) => m && m.role && m.content);
+    const validMessages = (messages || []).filter((m: any) => m && m.role && (m.content !== undefined || m.parts !== undefined));
 
     const result = streamText({
       model: google('gemini-2.5-flash'),
