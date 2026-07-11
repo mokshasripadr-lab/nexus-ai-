@@ -21,12 +21,21 @@ export async function POST(req: Request) {
     return (result as any).toUIMessageStreamResponse();
   } catch (error: any) {
     console.error("Critical Chat API Error:", error);
-    return new Response(
-      JSON.stringify({ error: error.message || "Failed to connect to the Gemini API." }),
-      { 
-        status: 500, 
-        headers: { 'Content-Type': 'application/json' } 
+    const encoder = new TextEncoder();
+    const stream = new ReadableStream({
+      start(controller) {
+        controller.enqueue(encoder.encode(`data: {"type":"start"}\n\n`));
+        controller.enqueue(encoder.encode(`data: {"type":"start-step"}\n\n`));
+        controller.enqueue(encoder.encode(`data: {"type":"text-start","id":"error"}\n\n`));
+        const errMsg = (error.message || "Unknown error").replace(/"/g, '\\"').replace(/\n/g, '\\n');
+        controller.enqueue(encoder.encode(`data: {"type":"text-delta","id":"error","delta":"API Error: ${errMsg}"}\n\n`));
+        controller.enqueue(encoder.encode(`data: {"type":"text-end","id":"error"}\n\n`));
+        controller.enqueue(encoder.encode(`data: {"type":"finish-step"}\n\n`));
+        controller.enqueue(encoder.encode(`data: {"type":"finish","finishReason":"error"}\n\n`));
+        controller.enqueue(encoder.encode(`data: [DONE]\n\n`));
+        controller.close();
       }
-    );
+    });
+    return new Response(stream, { headers: { 'Content-Type': 'text/event-stream' } });
   }
 }
