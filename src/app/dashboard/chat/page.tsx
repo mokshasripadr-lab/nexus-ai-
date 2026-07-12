@@ -53,18 +53,25 @@ export default function UniversalChatPage() {
   useEffect(() => setIsMounted(true), []);
   const [input, setInput] = useState("");
   const [token, setToken] = useState<string>('');
+  const tokenRef = useRef<string>('');
   useEffect(() => {
     if (user) {
-      user.getIdToken().then(setToken);
+      user.getIdToken().then((t) => {
+        setToken(t);
+        tokenRef.current = t;
+      });
     } else {
       setToken('');
+      tokenRef.current = '';
     }
   }, [user]);
 
   const { messages, setMessages, sendMessage, status } = useChat({
     transport: new DefaultChatTransport({ 
       api: '/api/engine',
-      headers: token ? { 'Authorization': `Bearer ${token}` } : {},
+      headers: () => {
+        return (tokenRef.current ? { 'Authorization': `Bearer ${tokenRef.current}` } : {}) as Record<string, string>;
+      },
     }),
     onError: (err: any) => {
       console.error("useChat Error:", err);

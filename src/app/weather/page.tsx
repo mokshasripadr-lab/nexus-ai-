@@ -10,6 +10,7 @@ export default function WeatherPage() {
   const { user } = useAuth();
 
   useEffect(() => {
+    if (!user) return;
     const fetchWeather = async () => {
       try {
         const headers: Record<string, string> = {};

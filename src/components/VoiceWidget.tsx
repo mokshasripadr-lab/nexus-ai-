@@ -24,12 +24,11 @@ export default function VoiceWidget({ onSendMessage, isAiSpeaking, onVoiceChange
   const [loadingVoices, setLoadingVoices] = useState(false);
 
   useEffect(() => {
-    if (voices.length === 0) {
+    if (voices.length === 0 && token) {
       setLoadingVoices(true);
-      const headers: Record<string, string> = {};
-      if (token) {
-        headers["Authorization"] = `Bearer ${token}`;
-      }
+      const headers: Record<string, string> = {
+        'Authorization': `Bearer ${token}`
+      };
       fetch("/api/elevenlabs/voices", { headers })
         .then((res) => res.json())
         .then((data) => {
@@ -44,7 +43,7 @@ export default function VoiceWidget({ onSendMessage, isAiSpeaking, onVoiceChange
         .catch(console.error)
         .finally(() => setLoadingVoices(false));
     }
-  }, [voices.length, onVoiceChange, selectedVoice]);
+  }, [voices.length, onVoiceChange, selectedVoice, token]);
 
   useEffect(() => {
     // Initialize SpeechRecognition
